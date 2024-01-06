@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Custody Caution: Navigating Exchange Hazards</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 15px 32px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            transition-duration: 0.4s;
+            font-size: 16px;
+            border-radius: 4px; /* Rounded corners for buttons */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Adds a shadow to buttons */
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .button-alert {
+            background-color: #f44336; /* Red */
+        }
+
+        .button-alert:hover {
+            background-color: #d32f2f;
+        }
+
+        #output p, p {
+            font-size: 1.5em;
+        }
+
+        #output p {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        #balance {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exchange Hack Education Tool</h1>
+    <p>Your balance: <span id="balance">1.00 BTC</span></p>
+
+    <div id="output"></div>
+    
+    <button id="simulateHackButton" class="button button-alert">Simulate Hack</button>
+    <button id="simulateMaintenanceButton" class="button">Simulate Maintenance</button>
+    <button id="attemptTransactionButton" class="button">Attempt Transaction</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function (){
+let userBalance = 1.0; // User starts with 1 BTC
+    let maintenanceActive = false;
+
+    // Button Event Listeners
+    document.getElementById('simulateHackButton').addEventListener('click', function() {
+        simulateExchangeHack();
+    });
+
+    document.getElementById('simulateMaintenanceButton').addEventListener('click', function() {
+        simulateMaintenance();
+    });
+
+    document.getElementById('attemptTransactionButton').addEventListener('click', function() {
+        simulateTransactionAttempt();
+    });
+
+    // Display the user balance upon load.
+    updateBalanceDisplay();
+
+    // Simulate a hack on the exchange.
+    function simulateExchangeHack() {
+        if(maintenanceActive) {
+            updateDisplay("Cannot simulate hack during maintenance.");
+            return;
+        }
+        const wasHacked = Math.random() < 0.5; // 50% chance of hack
+        if (wasHacked) {
+            userBalance -= userBalance / 2; // Loses half of the balance
+            updateDisplay("Oh no! The exchange was hacked and you lost half of your bitcoins!");
+        } else {
+            updateDisplay("You were lucky! The hack didn't affect your account.");
+        }
+        updateBalanceDisplay();
+    }
+
+    // Simulate exchange maintenance.
+    function simulateMaintenance() {
+        maintenanceActive = !maintenanceActive; // Toggle maintenance state
+        if (maintenanceActive) {
+            const hours = Math.ceil(Math.random() * 24); // Random maintenance duration
+            updateDisplay(`Exchange is under maintenance for ${hours} hours. Transactions are on hold.`);
+        } else {
+            updateDisplay("Maintenance has finished. All services resume normally.");
+        }
+    }
+    
+    // Simulate an attempt to perform a transaction.
+    function simulateTransactionAttempt() {
+        if (maintenanceActive) {
+            updateDisplay("Your attempt to access your bitcoins has failed; the exchange is currently under maintenance.");
+        } else {
+            updateDisplay("Your transaction was successful.");
+        }
+    }
+
+    // Update the displayed balance.
+    function updateBalanceDisplay() {
+        document.getElementById('balance').textContent = userBalance.toFixed(3) + ' BTC';
+    }
+
+    // Generic display update function.
+    function updateDisplay(message) {
+        document.getElementById('output').innerHTML = `<p>${message}</p>`;
+    }
+});
+       
+</script>
+</body>
+</html>
+
